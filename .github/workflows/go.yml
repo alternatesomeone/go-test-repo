@@ -12,10 +12,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.23'
-
-    - name: Build
+    - name: Build Solution
       run: go build -v ./...
+    
+    - name: Pull a Podman Container
+      run: podman pull docker.io/ubuntu:latest
+
+    - name: Run Podman Container
+      env:
+        MONGO_URI: ${{secrets.MONGO_URI}}
+      run: podman run -itd --name tester -e=MONGO_URI="$MONGO_URI" docker.io/ubuntu:latest
