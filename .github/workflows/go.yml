@@ -9,6 +9,7 @@ on:
 jobs:  
   build:
     runs-on: self-hosted
+    environment: development
     steps:
     - uses: actions/checkout@v4
 
@@ -20,5 +21,5 @@ jobs:
 
     - name: Run Podman Container
       env:
-        MONGO_URI: ${{ secrets.development.MONGO_URI }}
+        MONGO_URI: ${{ secrets.MONGO_URI }}
       run: podman run -itd --name tester -e=MONGO_URI="$MONGO_URI" docker.io/ubuntu:latest
